@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Add a café — DeskChai{% endblock %}
+{% block content %}
+<section class="add-form-section">
+  <div class="wrap wrap-narrow">
+    <h1>Add a café</h1>
+    <p class="sub">Know a good spot? Add it so the next person doesn't have to guess.</p>
+
+    <form method="post" class="cafe-form">
+      <label>Café name
+        <input type="text" name="name" required placeholder="e.g. Filter &amp; Founders">
+      </label>
+
+      <div class="form-row">
+        <label>Area
+          <input type="text" name="area" required placeholder="e.g. Indiranagar">
+        </label>
+        <label>City
+          <input type="text" name="city" value="Bengaluru">
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label>Opening hours
+          <input type="text" name="opening_hours" placeholder="e.g. 08:00 – 21:00">
+        </label>
+        <label>Approx. seats
+          <input type="text" name="seats" placeholder="e.g. 20-30">
+        </label>
+      </div>
+
+      <label>Coffee price
+        <input type="text" name="coffee_price" placeholder="e.g. ₹180">
+      </label>
+
+      <fieldset>
+        <legend>Amenities</legend>
+        <label class="checkbox-row"><input type="checkbox" name="has_wifi"> Wi-Fi</label>
+        <label class="checkbox-row"><input type="checkbox" name="has_sockets"> Power sockets</label>
+        <label class="checkbox-row"><input type="checkbox" name="has_toilet"> Restroom</label>
+        <label class="checkbox-row"><input type="checkbox" name="can_take_calls"> Okay to take calls</label>
+        <label class="checkbox-row"><input type="checkbox" name="quiet_friendly"> Generally quiet</label>
+        <label class="checkbox-row"><input type="checkbox" name="veg_available"> Veg food available</label>
+      </fieldset>
+
+      <button type="submit" class="primary-button">Add café</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

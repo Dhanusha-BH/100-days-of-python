@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}DeskChai — work-friendly cafés in Bengaluru{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap">
+      <a class="wordmark" href="{{ url_for('index') }}">DeskChai</a>
+      <nav>
+        <a href="{{ url_for('index') }}">Cafés</a>
+        <a href="{{ url_for('add_cafe') }}" class="nav-cta">Add a café</a>
+      </nav>
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="wrap">
+        <p class="flash">{{ messages[0] }}</p>
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>DeskChai catalogues work-friendly cafés, one city at a time. Details are
+      community-submitted — worth a quick check before you settle in for the day.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="wrap">
+    <h1>Bengaluru's work-friendly cafés,<br>sorted by what you actually need.</h1>
+    <p class="sub">{{ total }} spot{{ 's' if total != 1 else '' }} with real Wi-Fi, sockets
+      you can reach, and someone who won't mind if you stay for four hours.</p>
+  </div>
+</section>
+
+<section class="filters">
+  <div class="wrap">
+    <form method="get" class="filter-form" id="filter-form">
+      {% for f in filters %}
+        <label class="chip {{ 'is-active' if f in active_filters else '' }}">
+          <input type="checkbox" name="{{ f }}" value="1"
+                 {{ 'checked' if f in active_filters else '' }}
+                 onchange="document.getElementById('filter-form').submit()">
+          {{ filter_labels[f] }}
+        </label>
+      {% endfor %}
+      {% if active_filters %}
+        <a href="{{ url_for('index') }}" class="chip chip-clear">Clear filters</a>
+      {% endif %}
+    </form>
+  </div>
+</section>
+
+<section class="listing">
+  <div class="wrap">
+    {% if cafes %}
+      <div class="cafe-list">
+        {% for cafe in cafes %}
+          <article class="cafe-row">
+            <div class="cafe-main">
+              <h2 class="cafe-name">{{ cafe['name'] }}</h2>
+              <p class="cafe-meta">
+                {{ cafe['area'] }}, {{ cafe['city'] }}{% if cafe['opening_hours'] %} · {{ cafe['opening_hours'] }}{% endif %}
+              </p>
+              <ul class="tag-list">
+                {% if cafe['has_wifi'] %}<li>Wi-Fi</li>{% endif %}
+                {% if cafe['has_sockets'] %}<li>Sockets</li>{% endif %}
+                {% if cafe['quiet_friendly'] %}<li>Quiet</li>{% endif %}
+                {% if cafe['can_take_calls'] %}<li>Calls okay</li>{% endif %}
+                {% if cafe['veg_available'] %}<li>Veg food</li>{% endif %}
+                {% if cafe['has_toilet'] %}<li>Restroom</li>{% endif %}
+              </ul>
+            </div>
+            <div class="cafe-side">
+              {% if cafe['coffee_price'] %}<p class="cafe-price">{{ cafe['coffee_price'] }}</p>{% endif %}
+              {% if cafe['seats'] %}<p class="cafe-seats">{{ cafe['seats'] }} seats</p>{% endif %}
+              <div class="cafe-actions">
+                {% if cafe['map_url'] %}<a href="{{ cafe['map_url'] }}" target="_blank" rel="noopener">Map</a>{% endif %}
+                <form method="post" action="{{ url_for('delete_cafe', cafe_id=cafe['id']) }}"
+                      onsubmit="return confirm('Remove {{ cafe['name'] }}?');">
+                  <button type="submit" class="link-button">Delete</button>
+                </form>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <p>No cafés match those filters yet.</p>
+        <p><a href="{{ url_for('index') }}">Clear filters</a> or
+           <a href="{{ url_for('add_cafe') }}">add the one you're sitting in right now</a>.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
