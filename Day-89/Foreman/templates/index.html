@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Foreman — a lightweight kanban board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">▣</span>
+        <span class="brand-name">Foreman</span>
+      </div>
+      <button class="btn-primary" id="new-task-btn">+ New task</button>
+    </div>
+  </header>
+
+  <main class="board" id="board">
+    <section class="column" data-status="todo">
+      <header class="column-header">
+        <h2>To Do</h2>
+        <span class="count" data-count="todo">0</span>
+      </header>
+      <div class="column-body" data-dropzone="todo"></div>
+    </section>
+
+    <section class="column" data-status="doing">
+      <header class="column-header">
+        <h2>In Progress</h2>
+        <span class="count" data-count="doing">0</span>
+      </header>
+      <div class="column-body" data-dropzone="doing"></div>
+    </section>
+
+    <section class="column" data-status="done">
+      <header class="column-header">
+        <h2>Done</h2>
+        <span class="count" data-count="done">0</span>
+      </header>
+      <div class="column-body" data-dropzone="done"></div>
+    </section>
+  </main>
+
+  <!-- Task modal, shared by Add and Edit -->
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal">
+      <h2 id="modal-title">New task</h2>
+      <form id="task-form">
+        <input type="hidden" id="task-id" value="">
+
+        <label>Title
+          <input type="text" id="field-title" required placeholder="e.g. Write the API tests">
+        </label>
+
+        <label>Description
+          <textarea id="field-description" rows="3" placeholder="Optional detail"></textarea>
+        </label>
+
+        <div class="form-row">
+          <label>Priority
+            <select id="field-priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label>Column
+            <select id="field-status">
+              <option value="todo">To Do</option>
+              <option value="doing">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-text" id="delete-task-btn" hidden>Delete task</button>
+          <div class="modal-actions-right">
+            <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+            <button type="submit" class="btn-primary" id="save-btn">Add task</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
