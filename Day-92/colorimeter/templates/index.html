@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colorimeter — find the top colors in any image</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <span class="brand">◐ Colorimeter</span>
+      <span class="tagline">the top 10 colors in any image, extracted with NumPy</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="upload-card">
+      <form method="post" enctype="multipart/form-data" id="upload-form">
+        <label class="dropzone" for="file-input" id="dropzone">
+          <span class="dropzone-icon">↑</span>
+          <span class="dropzone-text" id="dropzone-text">
+            Drop an image here, or click to choose one
+          </span>
+          <input type="file" name="image" id="file-input" accept="image/*" hidden>
+        </label>
+        <button type="submit" class="btn-primary">Analyze colors</button>
+      </form>
+      {% if error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+    </section>
+
+    {% if colors %}
+      <section class="results">
+        <div class="preview-pane">
+          <img src="{{ preview_src }}" alt="{{ filename }}" class="preview-image">
+          <p class="preview-caption">{{ filename }}</p>
+        </div>
+
+        <div class="palette-pane">
+          <h2>Top {{ colors|length }} colors</h2>
+          <p class="palette-hint">Click any swatch to copy its hex code.</p>
+          <div class="palette-grid">
+            {% for c in colors %}
+              <button class="swatch" style="background-color: {{ c.hex }};"
+                      data-hex="{{ c.hex }}" type="button">
+                <span class="swatch-hex">{{ c.hex }}</span>
+                <span class="swatch-percent">{{ c.percent }}%</span>
+              </button>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+  </main>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
